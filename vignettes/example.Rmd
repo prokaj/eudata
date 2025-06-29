@@ -1,0 +1,145 @@
+---
+title: "How to use this package"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{How to use this package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(eudata)
+```
+
+```{r}
+library(dplyr)
+library(purrr)
+library(ggplot2)
+```
+
+```{r}
+get_topics()
+
+api <- get_topic("NUTS")
+
+file_list <- get_latest_files(api)$gpkg |> 
+  grep(pattern = "01M_.*_4326_", value = TRUE)
+
+file_list
+```
+```{r}
+to_tibble <- function(x, column_name = "value") 
+  tibble::tibble(names = names(x), `:=`(!!column_name, x))
+
+file_sizes <-
+  map_int(file_list, get_content_length, api = api) |>
+  to_tibble(column_name = "size")
+  # tibble::as_tibble_col()
+
+
+file_sizes |>
+  knitr::kable(
+    format.args = list(big.mark = "_", scientific = FALSE)
+  )
+
+```
+```{r}
+file_to_download <- grep(pattern = "RG.*LEVL_3", file_list, value = TRUE)
+file_to_download
+
+result <- get_content(
+  api = api,
+  end_point = file_to_download,
+  save_to_file = TRUE
+)
+
+result
+```
+```{r}
+db_file <- result$body 
+layer <- sf::st_layers(db_file)
+layer
+
+sample <- sf::st_read(
+  db_file,
+  query = glue::glue("select * from \"{layer}\" limit 5")
+)
+
+sample
+
+
+hu_data <- sf::st_read(
+  db_file,
+  query = glue::glue("select * from \"{layer}\" where CNTR_CODE = \"HU\"")
+)
+
+hu_data |>
+  knitr::kable()
+```
+```{r}
+hu_data |>
+  ggplot() +
+  geom_sf()
+```
+```{r}
+api <- get_topic("Postal")
+
+file_to_download <- grep("_4326", get_latest_files(api)$gpkg, value = TRUE) 
+
+result <- get_content(api, file_to_download, save_to_file = TRUE)
+result
+```
+```{r}
+db_file <- result$body
+layer <- sf::st_layers(db_file)
+layer
+
+sample <- sf::st_read(
+  db_file,
+  query = glue::glue("select * from \"{layer}\" limit 5")
+)
+
+sample
+
+
+hu_data <- sf::st_read(
+  db_file,
+  query = glue::glue("select * from \"{layer}\" where CNTR_ID = \"HU\"")
+)
+
+hu_data |> 
+  select(POSTCODE, LAU_NAT)
+```
+```{r}
+EOV <- "EPSG:23700"
+
+hu_data |>
+  filter(grepl("^Gyöngyös$", LAU_NAT)) |>
+  ggplot() +
+  geom_sf() + 
+  coord_sf(crs=EOV, datum = EOV)
+
+
+```
+```{r}
+hu_data |> 
+  sf::st_drop_geometry() |>
+  count(LAU_NAT) |>
+  arrange(-n) |>
+  filter(n > 1)
+  
+
+```
+```{r}
+hu_data |> 
+  sf::st_drop_geometry() |>
+  filter(LAU_NAT == "Visonta")
+
+```

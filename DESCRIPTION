@@ -1,0 +1,24 @@
+Package: eudata
+Type: Package
+Title: Downloads data from gisco-services.ec.europa.eu
+Version: 0.1.0
+Authors@R: c(
+    person("Vilmos", "Prokaj", , "prokaj.vilmos@gmail.com", role = c("aut", "cre"))
+  )
+Description: gisco-services.ec.europa.eu provides data related
+    to the european union through its rest API.
+    This package tries to make it easier to get these data into R.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    dplyr,
+    fs,
+    httr2,
+    purrr,
+    tibble,
+    cli
+Suggests: 
+    knitr
+RoxygenNote: 7.3.2
+VignetteBuilder: knitr
