@@ -6,7 +6,9 @@
 #' @importFrom rappdirs user_cache_dir
 
 pkgname <- "eudata"
-cache_dir <- fs::path_abs(rappdirs::user_cache_dir(pkgname))
+
+cache_dir <- function()
+  fs::path_abs(rappdirs::user_cache_dir(pkgname))
 
 topic_endpoints <-
   list(
@@ -77,7 +79,7 @@ get_topic <- function(topic) {
 get_datasets <- function(api) {
   api |>
     req_url_path_append("datasets.json") |>
-    req_cache(path = cache_dir) |>
+    req_cache(path = cache_dir()) |>
     req_perform() |>
     resp_body_json() |>
     purrr::list_transpose() |>
@@ -102,7 +104,7 @@ get_latest_files <- function(api) {
 
   api |>
     req_url_path_append(files_json) |>
-    req_cache(path = cache_dir) |>
+    req_cache(path = cache_dir()) |>
     req_perform() |>
     resp_body_json()
 }
@@ -179,6 +181,6 @@ get_content <-
     }
     api |>
       req_url_path_append(end_point) |>
-      req_cache(path = cache_dir) |>
+      req_cache(path = cache_dir()) |>
       req_perform(path = dest)
   }
