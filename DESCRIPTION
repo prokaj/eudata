@@ -10,15 +10,18 @@ Description: gisco-services.ec.europa.eu provides data related
     This package tries to make it easier to get these data into R.
 License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
+Depends: R (>= 4.1.0)
 Imports: 
     dplyr,
     fs,
     httr2,
     purrr,
     tibble,
-    cli
+    cli,
+    rappdirs
 Suggests: 
-    knitr
+    knitr, rmarkdown, ggplot2, sf, glue
 RoxygenNote: 7.3.2
 VignetteBuilder: knitr
+URL: https://github.com/prokaj/eudata
+BugReports: https://github.com/prokaj/eudata/issues

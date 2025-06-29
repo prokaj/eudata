@@ -2,6 +2,9 @@
 "_PACKAGE"
 
 ## usethis namespace: start
+#' @importFrom dplyr last
+#' @importFrom fs path_abs
+#' @importFrom fs path_file
 #' @importFrom httr2 req_auth_aws_v4
 #' @importFrom httr2 req_auth_basic
 #' @importFrom httr2 req_auth_bearer_token
@@ -87,5 +90,7 @@
 #' @importFrom httr2 resps_requests
 #' @importFrom httr2 resps_successes
 #' @importFrom purrr list_transpose
+#' @importFrom rappdirs user_cache_dir
+#' @importFrom tibble as_tibble
 ## usethis namespace: end
 NULL

@@ -8,6 +8,14 @@
 \description{
 gisco-services.ec.europa.eu provides data related to the european union through its rest API. This package tries to make it easier to get these data into R.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/prokaj/eudata}
+  \item Report bugs at \url{https://github.com/prokaj/eudata/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Vilmos Prokaj \email{prokaj.vilmos@gmail.com}
 
