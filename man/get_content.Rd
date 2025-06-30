@@ -2,9 +2,7 @@
 % Please edit documentation in R/api.R
 \name{get_content}
 \alias{get_content}
-\title{Get content from the API
-This function retrieves the content from the API
-and saves it to a file if `save_to_file` is TRUE.}
+\title{Get content from the API}
 \usage{
 get_content(
   api,
@@ -30,7 +28,6 @@ The content retrieved from the API is either the `body` of response or
 the path to the file when `save_to_file` is TRUE.
 }
 \description{
-Get content from the API
 This function retrieves the content from the API
 and saves it to a file if `save_to_file` is TRUE.
 }

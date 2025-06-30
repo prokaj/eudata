@@ -4,9 +4,9 @@
 \name{eudata-package}
 \alias{eudata}
 \alias{eudata-package}
-\title{eudata: Downloads Data from Gisco-services.ec.europa.eu}
+\title{eudata: Access Data from 'GISCO'}
 \description{
-The service gisco-services.ec.europa.eu provides data related to the european union through its rest API. This package tries to make it easier to get these data into R.
+Access data related to the European union from 'GISCO' \url{https://ec.europa.eu/eurostat/web/gisco}, the Geographic Information System of the Euorpean Commission, via its rest API at \url{https://gisco-services.ec.europa.eu}. This package tries to make it easier to get these data into R.
 }
 \seealso{
 Useful links:

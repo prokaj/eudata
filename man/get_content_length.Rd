@@ -2,9 +2,7 @@
 % Please edit documentation in R/api.R
 \name{get_content_length}
 \alias{get_content_length}
-\title{Get the content length of a file to download
-This function retrieves the content length of a file
-to be downloaded from the API.}
+\title{Get the content length of a file to download}
 \usage{
 get_content_length(api, file_to_download)
 }
@@ -17,7 +15,6 @@ get_content_length(api, file_to_download)
 An integer vector of content lengths, named by the file names.
 }
 \description{
-Get the content length of a file to download
 This function retrieves the content length of a file
 to be downloaded from the API.
 }

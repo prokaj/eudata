@@ -1,13 +1,15 @@
 Package: eudata
 Type: Package
-Title: Downloads Data from Gisco-services.ec.europa.eu
+Title: Access Data from 'GISCO'
 Version: 0.1.0
 Authors@R: c(
     person("Vilmos", "Prokaj", , "prokaj.vilmos@gmail.com", role = c("aut", "cre"))
   )
-Description: The service gisco-services.ec.europa.eu provides data related
-    to the european union through its rest API.
-    This package tries to make it easier to get these data into R.
+Description: Access data related to the European union from 'GISCO'
+  <https://ec.europa.eu/eurostat/web/gisco>, the Geographic Information
+  System of the Euorpean Commission, via its rest API at
+  <https://gisco-services.ec.europa.eu>.
+  This package tries to make it easier to get these data into R.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Depends: R (>= 4.1.0)

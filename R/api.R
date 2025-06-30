@@ -110,8 +110,10 @@ get_latest_files <- function(api) {
 }
 
 #' Get the content length of a file to download
+#'
 #' This function retrieves the content length of a file
 #' to be downloaded from the API.
+#'
 #' @param api An endpoint to the dataset variants.
 #' @param file_to_download A character vector of file names to download.
 #' @return An integer vector of content lengths, named by the file names.
@@ -135,6 +137,7 @@ get_content_length <- function(api, file_to_download) {
 }
 
 #' Get content from the API
+#'
 #' This function retrieves the content from the API
 #' and saves it to a file if `save_to_file` is TRUE.
 #'
