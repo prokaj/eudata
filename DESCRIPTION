@@ -7,7 +7,7 @@ Authors@R: c(
   )
 Description: Access data related to the European union from 'GISCO'
   <https://ec.europa.eu/eurostat/web/gisco>, the Geographic Information
-  System of the Euorpean Commission, via its rest API at
+  System of the European Commission, via its rest API at
   <https://gisco-services.ec.europa.eu>.
   This package tries to make it easier to get these data into R.
 License: MIT + file LICENSE

@@ -24,9 +24,19 @@ library(purrr)
 library(ggplot2)
 ```
 
+The data on GISCO is divided into topics. 
 ```{r}
 get_topics()
+```
+Select the topics that you are interested in.
+Within each topic there are numerous files. These may  differ in 
+in the year they are associated with, spatial resolution, coordinate reference system,
+data format, among other things.
 
+This package provides an easy access to the latest files.
+The example below selects the highest resolution file, where the coordinate system is the usual lat/long.
+
+```{r}
 api <- get_topic("NUTS")
 
 file_list <- get_latest_files(api)$gpkg |> 
@@ -34,6 +44,9 @@ file_list <- get_latest_files(api)$gpkg |>
 
 file_list
 ```
+
+Be aware, that these files can be huge. The `get_content_length` function returns the size of a file without downloading it. It is not vectorized, so you have to use a `map` like construct if you have a list of files.
+
 ```{r}
 to_tibble <- function(x, column_name = "value") 
   tibble::tibble(names = names(x), `:=`(!!column_name, x))
@@ -50,6 +63,11 @@ file_sizes |>
   )
 
 ```
+
+Suppose we selected a file to download. Then you can save it to a local file using the `get_content` function. It also save a copy into a cache under your cache folder. The place of this folder is OS dependent, use `rappdirs::user_cache_dir("eudata")` to locate it.
+
+If you do not specify a `dest` file, the data will be downloaded into a  temporary file. The path to this file is the `body` element of the result of the call.
+
 ```{r}
 file_to_download <- grep(pattern = "RG.*LEVL_3", file_list, value = TRUE)
 file_to_download
@@ -62,6 +80,8 @@ result <- get_content(
 
 result
 ```
+
+The selected data format `dpkg` can be read into memory with the `sf` package. First only the first five records are shown.
 ```{r}
 db_file <- result$body 
 layer <- sf::st_layers(db_file)
@@ -74,7 +94,11 @@ sample <- sf::st_read(
 
 sample
 
+```
 
+Once you have the structure of the database, it is easy to filter, for example, for Hungarian data only.
+
+```{r}
 hu_data <- sf::st_read(
   db_file,
   query = glue::glue("select * from \"{layer}\" where CNTR_CODE = \"HU\"")
@@ -83,11 +107,15 @@ hu_data <- sf::st_read(
 hu_data |>
   knitr::kable()
 ```
+
+A map with `ggplot2`.
 ```{r}
 hu_data |>
   ggplot() +
   geom_sf()
 ```
+
+Another example, now for postal codes.
 ```{r}
 api <- get_topic("Postal")
 
@@ -96,6 +124,7 @@ file_to_download <- grep("_4326", get_latest_files(api)$gpkg, value = TRUE)
 result <- get_content(api, file_to_download, save_to_file = TRUE)
 result
 ```
+
 ```{r}
 db_file <- result$body
 layer <- sf::st_layers(db_file)
@@ -117,6 +146,7 @@ hu_data <- sf::st_read(
 hu_data |> 
   select(POSTCODE, LAU_NAT)
 ```
+
 ```{r}
 EOV <- "EPSG:23700"
 
@@ -124,10 +154,12 @@ hu_data |>
   filter(grepl("^Gyöngyös$", LAU_NAT)) |>
   ggplot() +
   geom_sf() + 
-  coord_sf(crs=EOV, datum = EOV)
+  coord_sf(crs = EOV, datum = EOV)
 
 
 ```
+
+Cities with the highest number of associated postal codes
 ```{r}
 hu_data |> 
   sf::st_drop_geometry() |>
@@ -135,11 +167,5 @@ hu_data |>
   arrange(-n) |>
   filter(n > 1)
   
-
 ```
-```{r}
-hu_data |> 
-  sf::st_drop_geometry() |>
-  filter(LAU_NAT == "Visonta")
 
-```
